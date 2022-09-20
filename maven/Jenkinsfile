@@ -1,0 +1,21 @@
+pipeline {
+    agent any
+    stages {
+        stage('cloning the code') {
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/radhikamada/apche2.git']]])
+            }
+        }
+        stage('builging the code using the mvn') {
+            steps {
+                sh 'mvn clean install'
+                echo 'buiding the code'
+            }
+        }
+        stage ('post build using ') {
+            steps {
+                sh 'target/*.jar'
+            }
+        }
+    }
+}
